@@ -221,6 +221,25 @@ textarea.zh-in{font-family:var(--zh);font-size:calc(1.15rem*var(--zoom));min-hei
 .toast{pointer-events:none;position:fixed;left:50%;bottom:1.5rem;transform:translateX(-50%);background:var(--hdr);color:#fff;padding:.8rem 1.3rem;border-radius:12px;z-index:120;font-weight:700;max-width:90vw;text-align:center}
 .toast.warn{background:var(--amber)}
 
+.social{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:1.2rem}
+.soc{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:99px;font-weight:800;font-size:.9rem;text-decoration:none;color:#fff;background:linear-gradient(90deg,#d62976,#fa7e1e);box-shadow:0 6px 16px -8px rgba(214,41,118,.8)}
+.soc.alt{background:#fff;color:var(--pd);border:1.5px solid var(--p);box-shadow:none}
+.soc:hover{filter:brightness(1.06)}
+.lvls{display:flex;gap:.4rem;flex-wrap:wrap;margin:0 0 1.2rem}
+.lvl{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:.4rem 1rem;font-weight:800}
+.lvl.on{background:var(--hdr);border-color:var(--hdr);color:#fff}
+.passage.long{white-space:pre-line;margin-bottom:.9rem;background:#fff;border:1px solid var(--line);border-left:4px solid var(--p);max-height:none}
+.bn{color:var(--pd);font-family:var(--ui)}
+ruby{ruby-position:over;ruby-align:center;margin:0 .16em}
+rt{font-family:var(--ui);font-size:.58em;letter-spacing:0;color:var(--muted)}
+.stem,.passage,.ask{line-height:2.25}.opt .ot{line-height:2.1}
+.opts.imgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+.opts.imgs .opt{flex-direction:column;align-items:center;padding:.6rem}
+.opts.imgs .opt .oi img{max-width:100%;max-height:calc(120px*var(--zoom));mix-blend-mode:multiply}
+.exi{display:inline-flex;flex-direction:column;align-items:center;gap:.2rem;margin-right:.6rem}.exi img{height:70px;mix-blend-mode:multiply}
+.stemimg img{max-width:100%;max-height:90px;margin-bottom:.5rem}
+textarea.essay{min-height:230px}.cnt{font-size:.85rem;color:var(--muted);text-align:right;margin-top:.3rem}.cnt.ok{color:var(--pd);font-weight:700}
+.essayimg img{max-width:100%;max-height:340px;margin:.4rem 0 .8rem;border-radius:10px}
 .notice{background:var(--amberl);border:1.5px solid #e9c37a;color:#6b3f00;border-radius:12px;padding:.75rem 1rem;font-weight:700;font-size:.92rem;margin-bottom:1rem}
 .rules{display:grid;gap:.6rem;margin-bottom:1.1rem}.rules .notice{margin:0}
 .nv.locked{opacity:.35}.pkg .chip.lock{background:#eceeed;color:var(--muted)}
@@ -284,7 +303,11 @@ textarea.zh-in{font-family:var(--zh);font-size:calc(1.15rem*var(--zoom));min-hei
         <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.2 5.5-4.7 7.2l7.5 5.8c4.4-4.1 7-10.1 7-17.5z"/><path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.9-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
         <span data-i="google"></span></button>
       <button class="guest" id="btnGuest" type="button" data-i="guest"></button>
-      <p class="note" data-i="guestNote"></p>
+      <p class="note" id="guestNote" data-i="guestNote"></p>
+    </div>
+    <div class="social">
+      <a class="soc" href="https://www.instagram.com/whyfy_/" target="_blank" rel="noopener noreferrer">📸 <span data-i="followIG"></span></a>
+      <a class="soc alt" href="https://hanzi-dictation.vercel.app/" target="_blank" rel="noopener noreferrer">✍️ <span data-i="studyLink"></span></a>
     </div>
   </div>
 </section>
@@ -292,9 +315,11 @@ textarea.zh-in{font-family:var(--zh);font-size:calc(1.15rem*var(--zoom));min-hei
 <!-- PACKAGES -->
 <section id="screen-home" class="screen"><div class="center"><div class="panel">
   <h2 data-i="choosePkg"></h2><p class="sub" id="homeWho"></p>
+  <div class="lvls" id="lvls" role="tablist"></div>
   <div id="resumeBox" class="resume" hidden><p id="resumeTxt"></p><button class="btn btn-primary" id="btnResume" data-i="resume"></button></div>
   <div class="pkg-grid" id="pkgGrid" role="radiogroup"></div>
   <div class="actions" style="justify-content:flex-end"><button class="btn btn-primary btn-lg" id="btnPkgNext" disabled data-i="toDevice"></button></div>
+  <div class="social" style="margin-top:1.4rem"><a class="soc" href="https://www.instagram.com/whyfy_/" target="_blank" rel="noopener noreferrer">📸 <span data-i="followIG"></span></a></div>
 </div></div></section>
 
 <!-- DEVICE -->
@@ -324,7 +349,7 @@ textarea.zh-in{font-family:var(--zh);font-size:calc(1.15rem*var(--zoom));min-hei
   <header class="xh" id="xh">
     <div class="xh-row">
       <button class="xh-btn" id="btnNav" aria-expanded="false" aria-controls="drawer">☰ <span class="lbl" data-i="questions"></span></button>
-      <div class="xh-id"><b>Zhongwenfy · HSK 3</b><span id="xhName"></span></div>
+      <div class="xh-id"><b id="xhTitle">Zhongwenfy · HSK</b><span id="xhName"></span></div>
       <ol class="steps" id="xhSteps"></ol>
       <div class="xh-tools">
         <button class="xh-btn" id="zOut" aria-label="Smaller text">A−</button><button class="xh-btn" id="zIn" aria-label="Larger text">A+</button>
@@ -356,7 +381,7 @@ textarea.zh-in{font-family:var(--zh);font-size:calc(1.15rem*var(--zoom));min-hei
 <section id="screen-hist" class="screen"><div class="center"><div class="panel" style="max-width:900px">
   <h2 data-i="myResults"></h2><p class="sub" id="histSub"></p>
   <div class="stats" id="histStats"></div>
-  <div class="hist-wrap" id="histWrap"><table class="hist"><thead><tr><th data-i="finished"></th><th data-i="package"></th><th>听力 /100</th><th>阅读 /100</th><th>书写 (1) /50</th><th>Total /250</th><th data-i="timeUsed"></th><th></th></tr></thead><tbody id="histBody"></tbody></table></div>
+  <div class="hist-wrap" id="histWrap"><table class="hist"><thead><tr><th data-i="finished"></th><th data-i="package"></th><th>听力</th><th>阅读</th><th>书写</th><th>Total</th><th data-i="timeUsed"></th><th></th></tr></thead><tbody id="histBody"></tbody></table></div>
   <p id="histEmpty" class="sub" hidden data-i="noResults"></p>
   <div class="actions"><button class="btn" id="histBack" data-i="toPackages"></button><button class="btn" id="histClear" data-i="clearHist"></button></div>
 </div></div></section>
@@ -373,17 +398,18 @@ textarea.zh-in{font-family:var(--zh);font-size:calc(1.15rem*var(--zoom));min-hei
 </div></div>
 <div class="toast" id="toast" hidden></div>
 
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="packages/manifest.js"></script>
 <script>
 'use strict';
-/* ===== CONFIG: put your Google OAuth Client ID here to enable "Continue with Google" ===== */
-const CONFIG = { GOOGLE_CLIENT_ID: '' };
+/* Settings live in config.js (Supabase URL + anon key). */
 /* Teacher access code (used for Package 2 and for skipping Listening). Client-side only: it deters students, it is not real security. */
 const ACCESS = atob('eHVlc2hlbmcxMjM=');
 
 /* ===== i18n (UI text only; exam content stays Chinese) ===== */
 const T = {
-en:{tagline:'Practice it. Pass it. Master it.',subline:'Take the New HSK 3 mock exam in the real format and timing.',signIn:'Sign in',createAcc:'Create account',email:'Email',password:'Password',or:'or',google:'Continue with Google',guest:'Continue as guest',guestNote:'Guest data stays on this device.',
+en:{tagline:'Practice it. Pass it. Master it.',subline:'New HSK mock exams, levels 1–6, in the real format and timing.',signIn:'Sign in',createAcc:'Create account',email:'Email',password:'Password',or:'or',google:'Continue with Google',guest:'Continue as guest',guestNote:'Guest data stays on this device.',
  packages:'Packages',myResults:'My results',signOut:'Sign out',choosePkg:'Choose a mock test package',toDevice:'Continue to device check',resume:'Resume exam',resumeTxt:'You have an unfinished exam:',soon:'Coming soon',
  devTitle:'Device check',devSub:'Make sure your sound and Mandarin keyboard work before the exam starts.',soundT:'Sound check',soundP:'Put on your headset and play the test sound. Adjust the volume until it is clear.',playTest:'▶ Play test sound',heard:'I can hear it',soundOk:'Sound confirmed ✓',
  kbT:'Mandarin keyboard check',kbP:'Switch on your Pinyin input, then type at least one Chinese character, for example 你好.',kbOk:'Chinese input works ✓',kbBad:'No Chinese character detected yet.',
@@ -395,10 +421,10 @@ en:{tagline:'Practice it. Pass it. Master it.',subline:'Take the New HSK 3 mock 
  nextSec:'Continue to the next section',nextTxt:'When you move on you cannot return to this section.',finish:'Finish and submit',finishTxt:'Submit your answers and see your score.',
  confirmNext:'Go to the next section?',confirmSub:'You cannot come back to this section.',confirmFin:'Submit the exam?',confirmFinSub:'Unanswered questions will count as wrong.',yes:'Yes',keep:'Keep working',
  timeUp:'Time is up. Moving on.',listenEnd:'Listening finished. Reading starts now.',
- result:'Exam result',score:'Score',total:'Total score (auto-graded)',manual:'Writing part 2 (66–70) is not auto-graded. Compare your sentences with a teacher or tutor.',manualH:'Your Writing part 2 answers',
+ result:'Exam result',score:'Score',total:'Total score (auto-graded)',manual:'Written answers are not auto-graded. Show them to your teacher or tutor.',manualH:'Your written answers',
  review:'Answer review',ok:'Correct',wrong:'Wrong',skipped:'Not answered',yourAns:'Your answer',correct:'Correct answer',empty:'(empty)',
  finished:'Finished',package:'Package',timeUsed:'Time used',total2:'Total',attempts:'attempts',best:'Best',noResults:'No results yet. Finish a package and your score appears here.',toPackages:'Back to packages',clearHist:'Clear history',clearQ:'Clear your results history?',clearT:'All saved scores for this account on this device will be deleted.',
- errEmail:'Enter a valid email address.',errPass:'Password must be at least 6 characters.',errExists:'This email is already registered. Sign in instead.',errNo:'No account with this email. Create one first.',errWrong:'Wrong password.',googleNo:'Google sign-in needs a Client ID in CONFIG.GOOGLE_CLIENT_ID.',
+ errEmail:'Enter a valid email address.',errPass:'Password must be at least 6 characters.',errExists:'This email is already registered. Sign in instead.',errNo:'No account with this email. Create one first.',errWrong:'Wrong password.',googleNo:'Google sign-in needs Supabase to be set up in config.js.',
  guestName:'Guest',pkgName:'Package',pkgSub:'Workbook mock test',qs:'questions',min:'min',fullTest:'Full test',autoNote:'part 2 manual',leaveWarn:'The exam is running. Leaving will interrupt it.',install:'Install app',mustListen:'You must finish the Listening section first. Reading opens only after the Listening section is finished.',lockedSec:'This section is locked until Listening is finished.',c4:'I understand that switching tabs or windows is recorded and gives warnings.',
  tabRule:'Tab rule: switching tab or window gives a warning (up to 3). At the 3rd warning you must read a final notice for 15 seconds and confirm your promise. During Listening, the audio then replays from 10 seconds earlier.',
  violT:'Warning',violText:'You left the exam page. This is recorded. Please stay on this page until the exam is finished.',understood:'I understand',final:'Final warning',
@@ -406,8 +432,8 @@ en:{tagline:'Practice it. Pass it. Master it.',subline:'Take the New HSK 3 mock 
  promise:'I promise I will not leave the exam page again.',rewind:'The Listening audio will replay from 10 seconds earlier so you do not miss a question.',waitS:'Please wait',continueBtn:'Continue exam',
  skipBtn:'Skip Listening (teacher code)',skipT:'Skip the Listening section',skipP:'Enter the access code from your laoshi. The audio stops and you move to Reading.',
  codeT:'Access code required',codeP:'Enter the access code from your laoshi to open this package.',codeBad:'Wrong code.',codeOk:'Confirm',lockPrev:'Finish Package {n} first',lockCode:'Access code',unlocked:'Package unlocked ✓',
- view:'View score',tutorNote:'+50 points for Writing part 2, graded by your tutor.',correctCount:'correct',violCount:'Tab/window switches recorded',skippedNote:'Listening was skipped with a teacher code.',outOf:'out of',check:'answer check',audioDone:'Audio finished. You can check your answers until the time ends.',toRead:'Continue to Reading',totalTime:'Total'},
-id:{tagline:'Latih. Lulus. Kuasai.',subline:'Kerjakan simulasi ujian New HSK 3 dengan format dan waktu asli.',signIn:'Masuk',createAcc:'Buat akun',email:'Email',password:'Kata sandi',or:'atau',google:'Lanjutkan dengan Google',guest:'Lanjut sebagai tamu',guestNote:'Data tamu tersimpan di perangkat ini.',
+ view:'View score',tutorNote:'+{n} points for writing, graded by your tutor.',correctCount:'correct',violCount:'Tab/window switches recorded',skippedNote:'Listening was skipped with a teacher code.',outOf:'out of',check:'answer check',audioDone:'Audio finished. You can check your answers until the time ends.',toRead:'Continue to Reading',totalTime:'Total',followIG:'Follow for Support Creators',studyLink:'Zhongwenfy for study',confirmMail:'Account created. Check your email to confirm it, then sign in.',cloudErr:'Could not reach the server. Check your connection and try again.',saveErr:'Your result could not be saved to the server. Do not close this page.',chars:'characters',soon:'Coming soon'},
+id:{tagline:'Latih. Lulus. Kuasai.',subline:'Simulasi ujian New HSK level 1–6 dengan format dan waktu asli.',signIn:'Masuk',createAcc:'Buat akun',email:'Email',password:'Kata sandi',or:'atau',google:'Lanjutkan dengan Google',guest:'Lanjut sebagai tamu',guestNote:'Data tamu tersimpan di perangkat ini.',
  packages:'Paket',myResults:'Hasilku',signOut:'Keluar',choosePkg:'Pilih paket simulasi ujian',toDevice:'Lanjut ke cek perangkat',resume:'Lanjutkan ujian',resumeTxt:'Kamu punya ujian yang belum selesai:',soon:'Segera hadir',
  devTitle:'Cek perangkat',devSub:'Pastikan suara dan keyboard Mandarin berfungsi sebelum ujian dimulai.',soundT:'Cek suara',soundP:'Pakai headset dan putar suara tes. Atur volume sampai jelas.',playTest:'▶ Putar suara tes',heard:'Saya bisa mendengar',soundOk:'Suara terkonfirmasi ✓',
  kbT:'Cek keyboard Mandarin',kbP:'Aktifkan input Pinyin, lalu ketik minimal satu karakter Mandarin, misalnya 你好.',kbOk:'Input Mandarin berfungsi ✓',kbBad:'Belum ada karakter Mandarin.',
@@ -419,10 +445,10 @@ id:{tagline:'Latih. Lulus. Kuasai.',subline:'Kerjakan simulasi ujian New HSK 3 d
  nextSec:'Lanjut ke bagian berikutnya',nextTxt:'Setelah lanjut, kamu tidak bisa kembali ke bagian ini.',finish:'Selesai dan kirim',finishTxt:'Kirim jawaban dan lihat skormu.',
  confirmNext:'Lanjut ke bagian berikutnya?',confirmSub:'Kamu tidak bisa kembali ke bagian ini.',confirmFin:'Kirim ujian?',confirmFinSub:'Soal yang kosong dihitung salah.',yes:'Ya',keep:'Lanjut mengerjakan',
  timeUp:'Waktu habis. Pindah bagian.',listenEnd:'Listening selesai. Reading dimulai.',
- result:'Hasil ujian',score:'Skor',total:'Total skor (dinilai otomatis)',manual:'Menulis bagian 2 (66–70) tidak dinilai otomatis. Bandingkan kalimatmu dengan guru atau tutor.',manualH:'Jawaban Menulis bagian 2',
+ result:'Hasil ujian',score:'Skor',total:'Total skor (dinilai otomatis)',manual:'Jawaban tulis tidak dinilai otomatis. Tunjukkan ke guru atau tutor.',manualH:'Jawaban tulismu',
  review:'Tinjauan jawaban',ok:'Benar',wrong:'Salah',skipped:'Tidak dijawab',yourAns:'Jawabanmu',correct:'Jawaban benar',empty:'(kosong)',
  finished:'Selesai',package:'Paket',timeUsed:'Waktu',total2:'Total',attempts:'percobaan',best:'Terbaik',noResults:'Belum ada hasil. Selesaikan satu paket dan skormu muncul di sini.',toPackages:'Kembali ke paket',clearHist:'Hapus riwayat',clearQ:'Hapus riwayat hasil?',clearT:'Semua skor tersimpan untuk akun ini di perangkat ini akan dihapus.',
- errEmail:'Masukkan alamat email yang valid.',errPass:'Kata sandi minimal 6 karakter.',errExists:'Email ini sudah terdaftar. Silakan masuk.',errNo:'Tidak ada akun dengan email ini. Buat akun dulu.',errWrong:'Kata sandi salah.',googleNo:'Login Google butuh Client ID di CONFIG.GOOGLE_CLIENT_ID.',
+ errEmail:'Masukkan alamat email yang valid.',errPass:'Kata sandi minimal 6 karakter.',errExists:'Email ini sudah terdaftar. Silakan masuk.',errNo:'Tidak ada akun dengan email ini. Buat akun dulu.',errWrong:'Kata sandi salah.',googleNo:'Login Google butuh Supabase yang diatur di config.js.',
  guestName:'Tamu',pkgName:'Paket',pkgSub:'Simulasi dari workbook',qs:'soal',min:'menit',fullTest:'Tes lengkap',autoNote:'bagian 2 manual',leaveWarn:'Ujian sedang berjalan. Meninggalkan halaman akan mengganggu ujian.',install:'Pasang aplikasi',mustListen:'Kamu harus menyelesaikan bagian Listening terlebih dahulu. Reading baru terbuka setelah bagian Listening selesai.',lockedSec:'Bagian ini terkunci sampai Listening selesai.',c4:'Saya paham berpindah tab atau jendela akan dicatat dan diberi peringatan.',
  tabRule:'Aturan tab: berpindah tab atau jendela akan diberi peringatan (maksimal 3). Pada peringatan ke-3, kamu harus membaca peringatan akhir selama 15 detik dan menyetujui janji. Di Listening, audio lalu diputar ulang dari 10 detik sebelumnya.',
  violT:'Peringatan',violText:'Kamu meninggalkan halaman ujian. Ini tercatat. Tetaplah di halaman ini sampai ujian selesai.',understood:'Saya mengerti',final:'Peringatan terakhir',
@@ -430,7 +456,7 @@ id:{tagline:'Latih. Lulus. Kuasai.',subline:'Kerjakan simulasi ujian New HSK 3 d
  promise:'Saya berjanji tidak akan meninggalkan halaman ujian lagi.',rewind:'Audio Listening akan diputar ulang dari 10 detik sebelumnya agar kamu tidak ketinggalan soal.',waitS:'Mohon tunggu',continueBtn:'Lanjutkan ujian',
  skipBtn:'Lewati Listening (kode laoshi)',skipT:'Lewati bagian Listening',skipP:'Masukkan kode akses dari laoshi. Audio berhenti dan kamu pindah ke Reading.',
  codeT:'Perlu kode akses',codeP:'Masukkan kode akses dari laoshi untuk membuka paket ini.',codeBad:'Kode salah.',codeOk:'Konfirmasi',lockPrev:'Selesaikan Paket {n} dulu',lockCode:'Kode akses',unlocked:'Paket terbuka ✓',
- view:'Lihat skor',tutorNote:'+50 poin untuk Menulis bagian 2, dinilai oleh tutor.',correctCount:'benar',violCount:'Pindah tab/jendela tercatat',skippedNote:'Listening dilewati dengan kode laoshi.',outOf:'dari',check:'cek jawaban',audioDone:'Audio selesai. Kamu bisa memeriksa jawaban sampai waktu habis.',toRead:'Lanjut ke Reading',totalTime:'Total'}
+ view:'Lihat skor',tutorNote:'+{n} poin untuk menulis, dinilai oleh tutor.',correctCount:'benar',violCount:'Pindah tab/jendela tercatat',skippedNote:'Listening dilewati dengan kode laoshi.',outOf:'dari',check:'cek jawaban',audioDone:'Audio selesai. Kamu bisa memeriksa jawaban sampai waktu habis.',toRead:'Lanjut ke Reading',totalTime:'Total',followIG:'Follow for Support Creators',studyLink:'Zhongwenfy untuk belajar',confirmMail:'Akun dibuat. Cek emailmu untuk konfirmasi, lalu masuk.',cloudErr:'Tidak bisa terhubung ke server. Periksa koneksi lalu coba lagi.',saveErr:'Hasilmu belum tersimpan ke server. Jangan tutup halaman ini.',chars:'karakter',soon:'Segera hadir'}
 };
 const THEMES=[['matcha','🍵 Matcha'],['sakura','🌸 Sakura'],['ocean','🌊 Ocean'],['ember','🔥 Ember']];
 const LANGS=[['en','English'],['id','Bahasa Indonesia']];
@@ -447,6 +473,57 @@ const mmss=s=>{s=Math.max(0,Math.floor(s||0));return `${Math.floor(s/60)}:${Stri
 const MANIFEST=window.PACKAGE_MANIFEST||[];
 let CURRES=null,USER=null,ENTRY=null,PKG=null,SECS=[],QS={},S=null,timerH=null,aud=null,curScreen='login',chosen=null;
 const dev={sound:false,kb:false};
+
+/* ===== Supabase cloud layer (falls back to this browser when config.js is empty) ===== */
+const ZC=window.ZWF_CONFIG||{};
+let sb=null;
+try{if(ZC.SUPABASE_URL&&ZC.SUPABASE_ANON_KEY&&window.supabase)sb=window.supabase.createClient(ZC.SUPABASE_URL,ZC.SUPABASE_ANON_KEY,{auth:{storage:window.sessionStorage,persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}})}catch(e){console.warn('Supabase init failed',e)}
+const sess={get(k,d=null){try{const v=sessionStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{sessionStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{sessionStorage.removeItem(k)}catch(e){}}};
+const STATE={results:[],unlocks:{},session:null};
+let LASTCODE='';
+const cloud=()=>!!(sb&&USER&&USER.cloud);
+const DB={
+  async load(){
+    if(cloud()){
+      const [r,u,x]=await Promise.all([sb.from('results').select('id,data').order('created_at',{ascending:false}).limit(100),sb.from('unlocks').select('pkg_id'),sb.from('exam_sessions').select('state').maybeSingle()]);
+      const err=r.error||u.error||x.error;if(err)throw err;
+      STATE.results=(r.data||[]).map(y=>y.data);STATE.unlocks=Object.fromEntries((u.data||[]).map(y=>[y.pkg_id,1]));STATE.session=x.data?x.data.state:null;
+    }else{
+      STATE.results=store.get('zwf_hist_'+USER.id,[]);STATE.unlocks=store.get('zwf_unl_'+USER.id,{});STATE.session=store.get('zwf_sess_'+USER.id);
+    }
+  },
+  async addResult(r){
+    STATE.results.unshift(r);
+    if(cloud()){const {error}=await sb.from('results').insert({pkg_id:r.pkgId,data:r});if(error)throw error}
+    else store.set('zwf_hist_'+USER.id,STATE.results.slice(0,50));
+  },
+  async clearResults(){
+    STATE.results=[];
+    if(cloud()){const {error}=await sb.from('results').delete().eq('user_id',USER.id);if(error)throw error}
+    else store.del('zwf_hist_'+USER.id);
+  },
+  saveSession(){clearTimeout(DB._t);DB._t=setTimeout(()=>DB.flushSession().catch(e=>console.warn(e)),1200)},
+  async flushSession(){
+    if(!S||S.finished||!USER)return;STATE.session=S;
+    if(cloud()){const {error}=await sb.from('exam_sessions').upsert({user_id:USER.id,state:S,updated_at:new Date().toISOString()});if(error)throw error}
+    else store.set('zwf_sess_'+USER.id,S);
+  },
+  async clearSession(){
+    clearTimeout(DB._t);STATE.session=null;
+    if(cloud()){await sb.from('exam_sessions').delete().eq('user_id',USER.id)}else store.del('zwf_sess_'+USER.id);
+  },
+  async verify(code){
+    code=String(code||'').trim();
+    if(sb){const {data,error}=await sb.rpc('verify_code',{c:code});if(error){console.warn(error);return false}return data===true}
+    return code===ACCESS;
+  },
+  async unlock(pkgId,code){
+    code=String(code||'').trim();
+    if(cloud()){const {data,error}=await sb.rpc('unlock_package',{p:pkgId,c:code});if(error){console.warn(error);return false}if(data===true){STATE.unlocks[pkgId]=1;return true}return false}
+    if(!await DB.verify(code))return false;
+    STATE.unlocks[pkgId]=1;store.set('zwf_unl_'+USER.id,STATE.unlocks);return true;
+  }
+};
 
 function applyLang(){
   document.documentElement.lang=LANG;
@@ -479,7 +556,7 @@ let mRes=null;
 function ask({title,text,ok,cancel,danger,input,single}){return new Promise(r=>{mRes=r;$('#mTitle').textContent=title;$('#mText').textContent=text;$('#mOk').textContent=ok||t('yes');$('#mCancel').textContent=cancel||t('back');$('#mCancel').hidden=!!single;$('#mOk').className='btn '+(danger?'btn-danger':'btn-primary');const mi=$('#mInput');mi.hidden=!input;mi.value='';$('#mErr').hidden=true;$('#modal').hidden=false;(input?mi:$('#mOk')).focus()})}
 const askCode=(title,text)=>ask({title,text,ok:t('codeOk'),input:true});
 const closeM=v=>{$('#modal').hidden=true;if(mRes){const r=mRes;mRes=null;r(v)}};
-$('#mOk').onclick=()=>{const mi=$('#mInput');if(!mi.hidden&&mi.value.trim()!==ACCESS){$('#mErr').textContent=t('codeBad');$('#mErr').hidden=false;mi.select();return}closeM(true)};
+$('#mOk').onclick=async()=>{const mi=$('#mInput');if(!mi.hidden){$('#mOk').disabled=true;const ok=await DB.verify(mi.value);$('#mOk').disabled=false;if(!ok){$('#mErr').textContent=t('codeBad');$('#mErr').hidden=false;mi.select();return}LASTCODE=mi.value.trim()}closeM(true)};
 $('#mInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('#mOk').click()});$('#mCancel').onclick=()=>closeM(false);
 
 /* ===== auth (accounts live in this browser only) ===== */
@@ -492,53 +569,84 @@ $('#authForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const email=$('#aEmail').value.trim().toLowerCase(),pw=$('#aPass').value;
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return authErr(t('errEmail'));
+  if(mode==='up'&&pw.length<6)return authErr(t('errPass'));
+  if(sb){
+    $('#authBtn').disabled=true;
+    try{
+      if(mode==='up'){
+        const {data,error}=await sb.auth.signUp({email,password:pw,options:{emailRedirectTo:location.origin+location.pathname}});
+        if(error)return authErr(error.message);
+        if(!data.session){setMode('in');return toast(t('confirmMail'))}
+        return cloudSignIn(data.session.user);
+      }
+      const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
+      if(error)return authErr(error.message);
+      return cloudSignIn(data.user);
+    }finally{$('#authBtn').disabled=false}
+  }
   const users=store.get('zwf_users',{});
   if(mode==='up'){
-    if(pw.length<6)return authErr(t('errPass'));
     if(users[email])return authErr(t('errExists'));
     const salt=Math.random().toString(36).slice(2);users[email]={salt,hash:await sha(salt+':'+pw)};store.set('zwf_users',users);
   }else{
     const u=users[email]; if(!u)return authErr(t('errNo'));
     if(u.hash!==await sha(u.salt+':'+pw))return authErr(t('errWrong'));
   }
-  signIn({id:'u_'+email,email});
+  localSignIn({id:'u_'+email,email});
 });
-$('#btnGuest').onclick=()=>signIn({id:'guest',email:'',guest:true});
-$('#btnGoogle').onclick=()=>{
-  if(!CONFIG.GOOGLE_CLIENT_ID)return toast(t('googleNo'),'warn');
-  const go=()=>{google.accounts.id.initialize({client_id:CONFIG.GOOGLE_CLIENT_ID,callback:r=>{try{const p=JSON.parse(decodeURIComponent(escape(atob(r.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')))));signIn({id:'g_'+p.sub,email:p.email})}catch(e){toast('Google sign-in failed','warn')}}});google.accounts.id.prompt()};
-  if(window.google&&google.accounts)return go();
-  const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.onload=go;s.onerror=()=>toast('Google sign-in failed','warn');document.head.appendChild(s);
+$('#btnGuest').onclick=()=>localSignIn({id:'guest',email:'',guest:true});
+$('#btnGoogle').onclick=async()=>{
+  if(!sb)return toast(t('googleNo'),'warn');
+  const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname,queryParams:{prompt:'select_account'}}});
+  if(error)toast(error.message,'warn');
 };
-function signIn(u){USER=u;store.set('zwf_cur',u);$('#aPass').value='';$('#ubUser').textContent=u.guest?t('guestName'):u.email;S=store.get('zwf_sess_'+u.id);if(S&&S.finished)S=null;openHome()}
-function signOut(){if(aud){aud.pause();aud=null}USER=null;S=null;store.del('zwf_cur');show('login')}
+async function cloudSignIn(u){
+  if(USER&&USER.id===u.id)return;
+  USER={id:u.id,email:u.email||'',cloud:true,guest:false};
+  try{await DB.load()}catch(e){console.error(e);USER=null;toast(t('cloudErr'),'warn');try{await sb.auth.signOut()}catch(_){}return}
+  afterSignIn();
+}
+function localSignIn(u){USER=u;sess.set('zwf_cur',u);DB.load().then(afterSignIn)}
+function afterSignIn(){$('#aPass').value='';$('#ubUser').textContent=USER.guest?t('guestName'):USER.email;S=STATE.session&&!STATE.session.finished?STATE.session:null;openHome()}
+async function signOut(){
+  stopAudio();clearTimeout(DB._t);
+  if(sb&&USER&&USER.cloud){try{await sb.auth.signOut()}catch(e){}}
+  USER=null;S=null;STATE.results=[];STATE.unlocks={};STATE.session=null;sess.del('zwf_cur');show('login');
+}
 $('#ubOut').onclick=signOut;$('#ubHome').onclick=openHome;$('#ubHist').onclick=()=>{paintHist();show('hist')};
 $('#histBack').onclick=openHome;
 
 /* ===== packages ===== */
-const hist=()=>store.get('zwf_hist_'+USER.id,[]);
+const hist=()=>STATE.results;
+let LVL=store.get('zwf_lvl')||1;
+const pkgLabel=id=>{const m=MANIFEST.find(x=>x.id===id);return m?`HSK ${m.level} · ${t('pkgName')} ${m.slot}`:String(id)};
 function openHome(){chosen=null;paintHome();show('home')}
 const doneP=id=>hist().some(x=>x.pkgId===id);
-const unlockedP=id=>!!store.get('zwf_unl_'+USER.id,{})[id];
+const unlockedP=id=>!!STATE.unlocks[id];
 function paintHome(){
   $('#homeWho').textContent=USER.guest?t('guestName'):USER.email;
+  $('#lvls').innerHTML=[1,2,3,4,5,6].map(n=>`<button class="lvl${n===LVL?' on':''}" role="tab" aria-selected="${n===LVL}" data-lvl="${n}">HSK ${n}</button>`).join('');
   const h=hist();
-  $('#pkgGrid').innerHTML=MANIFEST.map((m,i)=>{
+  $('#pkgGrid').innerHTML=[1,2].map(slot=>MANIFEST.find(m=>m.level===LVL&&m.slot===slot)||{soon:true,slot}).map(m=>{
+    if(m.soon)return `<button class="pkg" disabled><span class="num zh">${m.slot}</span><h3>${t('pkgName')} ${m.slot}</h3><span class="meta">HSK ${LVL}</span><span class="chip lock">${t('soon')}</span></button>`;
     const sel=chosen&&chosen.id===m.id;
     const state=m.requires&&!doneP(m.requires)?'prev':(m.code&&!unlockedP(m.id)?'code':'open');
-    const best=h.filter(x=>x.pkgId===m.id).reduce((a,x)=>Math.max(a,totalOf(x)),-1);
-    const chip=state==='prev'?`<span class="chip lock">🔒 ${t('lockPrev').replace('{n}',MANIFEST.findIndex(k=>k.id===m.requires)+1)}</span>`:state==='code'?`<span class="chip lock">🔒 ${t('lockCode')}</span>`:best>=0?`<span class="chip">${t('best')}: ${best}/${GMAX}</span>`:`<span class="chip">${t('fullTest')}</span>`;
-    return `<button class="pkg${sel?' sel':''}" role="radio" aria-checked="${!!sel}" data-id="${m.id}" data-state="${state}" ${state==='prev'?'disabled':''}><span class="num zh">${i+1}</span><h3>${t('pkgName')} ${i+1}</h3><span class="meta">HSK 3 · ${esc(m.sub)}<br>${m.questions} ${t('qs')} · ~${m.minutes} ${t('min')}</span>${chip}</button>`;
+    const mine=h.filter(x=>x.pkgId===m.id);
+    const best=mine.reduce((a,x)=>totalOf(x)>(a?totalOf(a):-1)?x:a,null);
+    const chip=state==='prev'?`<span class="chip lock">🔒 ${t('lockPrev').replace('{n}',MANIFEST.find(k=>k.id===m.requires).slot)}</span>`:state==='code'?`<span class="chip lock">🔒 ${t('lockCode')}</span>`:best?`<span class="chip">${t('best')}: ${totalOf(best)}/${best.max}</span>`:`<span class="chip">${t('fullTest')}</span>`;
+    return `<button class="pkg${sel?' sel':''}" role="radio" aria-checked="${!!sel}" data-id="${m.id}" data-state="${state}" ${state==='prev'?'disabled':''}><span class="num zh">${m.slot}</span><h3>${t('pkgName')} ${m.slot}</h3><span class="meta">HSK ${m.level} · ${esc(m.sub)}<br>${m.questions} ${t('qs')} · ~${m.minutes} ${t('min')}</span>${chip}</button>`;
   }).join('');
   $('#btnPkgNext').disabled=!chosen;
   const rb=$('#resumeBox');
-  if(S&&!S.finished){rb.hidden=false;$('#resumeTxt').textContent=`${t('resumeTxt')} ${t('pkgName')} ${MANIFEST.findIndex(m=>m.id===S.pkg)+1}`}else rb.hidden=true;
+  if(S&&!S.finished&&MANIFEST.find(m=>m.id===S.pkg)){rb.hidden=false;$('#resumeTxt').textContent=`${t('resumeTxt')} ${pkgLabel(S.pkg)}`}else rb.hidden=true;
 }
+$('#lvls').addEventListener('click',e=>{const b=e.target.closest('[data-lvl]');if(!b)return;LVL=+b.dataset.lvl;store.set('zwf_lvl',LVL);chosen=null;paintHome()});
 $('#pkgGrid').addEventListener('click',async e=>{
   const b=e.target.closest('.pkg[data-id]');if(!b||b.disabled)return;const m=MANIFEST.find(x=>x.id===b.dataset.id);
   if(b.dataset.state==='code'){
     if(!await askCode(t('codeT'),t('codeP')))return;
-    const u=store.get('zwf_unl_'+USER.id,{});u[m.id]=1;store.set('zwf_unl_'+USER.id,u);toast(t('unlocked'));
+    if(!await DB.unlock(m.id,LASTCODE))return toast(t('codeBad'),'warn');
+    toast(t('unlocked'));
   }
   chosen=m;paintHome();
 });
@@ -546,8 +654,8 @@ $('#btnPkgNext').onclick=async()=>{ENTRY=chosen;try{await loadPkg(ENTRY)}catch(e
 $('#btnResume').onclick=async()=>{ENTRY=MANIFEST.find(m=>m.id===S.pkg);try{await loadPkg(ENTRY)}catch(e){return toast(e.message,'warn')}beginExam(true)};
 function loadPkg(entry){
   return new Promise((res,rej)=>{
-    const go=()=>{PKG=window.PACKAGES[entry.id];if(!PKG)return rej(new Error('Package data missing'));build();res()};
-    if(window.PACKAGES&&window.PACKAGES[entry.id])return go();
+    const go=()=>{PKG=window.PACKAGES[entry.pk];if(!PKG)return rej(new Error('Package data missing'));build();res()};
+    if(window.PACKAGES&&window.PACKAGES[entry.pk])return go();
     const s=document.createElement('script');s.src=entry.path+'exam.js';s.onload=go;s.onerror=()=>rej(new Error('Could not load '+entry.path+'exam.js'));document.head.appendChild(s);
   });
 }
@@ -565,7 +673,7 @@ function build(){
   });
 }
 const secName=s=>s.name[LANG]||s.name.en;
-const secDur=i=>[PKG.listenSec,PKG.readSec,PKG.writeSec][i]*1000;
+const secDur=i=>1000*(PKG.sections[i].sec||[PKG.listenSec,PKG.readSec,PKG.writeSec][i]);
 
 /* ===== device check ===== */
 function paintDevice(){
@@ -589,7 +697,7 @@ $('#devDone').onclick=()=>{paintReady();show('ready');runAudioCheck()};
 /* ===== ready ===== */
 let audioOk=null;
 function paintReady(){
-  $('#readyWho').textContent=`${USER.guest?t('guestName'):USER.email} · HSK 3 · ${t('pkgName')} ${MANIFEST.findIndex(m=>m.id===ENTRY.id)+1}`;
+  $('#readyWho').textContent=`${USER.guest?t('guestName'):USER.email} · ${pkgLabel(ENTRY.id)}`;
   $('#readyRows').innerHTML=SECS.map((s,i)=>`<tr><td><span class="zh">${s.zh}</span> ${esc(secName(s))}</td><td>${s.to-s.from+1}</td><td>${Math.round(secDur(i)/60000)+' '+t('min')}${i===0?' <small style="color:var(--muted)">(audio + '+t('check')+')</small>':''}</td></tr>`).join('')+`<tr><td><b>${t('totalTime')}</b></td><td><b>${SECS[SECS.length-1].to}</b></td><td><b>${Math.round(SECS.reduce((a,_,i)=>a+secDur(i),0)/60000)} ${t('min')}</b></td></tr>`;
   const ck=['c1','c2','c3','c4'];
   $('#readyRules').innerHTML=`<div class="notice">⚠ ${t('mustListen')}</div><div class="notice">⚠ ${t('tabRule')}</div>`;
@@ -602,14 +710,14 @@ function runAudioCheck(){audioOk=null;paintAudioCheck();const a=new Audio();a.pr
 function updateStart(){$('#btnStart').disabled=!(audioOk&&$$('#readyChecks input').every(x=>x.checked))}
 $('#readyChecks').addEventListener('change',updateStart);
 $('#readyBack').onclick=()=>{paintDevice();show('device')};
-$('#btnStart').onclick=()=>{S={id:Date.now(),pkg:ENTRY.id,sec:0,secStart:Date.now(),startedAt:Date.now(),ans:{},flags:{},viol:0,finished:false};store.set('zwf_sess_'+USER.id,S);beginExam(false)};
+$('#btnStart').onclick=()=>{S={id:Date.now(),pkg:ENTRY.id,sec:0,secStart:Date.now(),startedAt:Date.now(),ans:{},flags:{},viol:0,finished:false};DB.flushSession().catch(e=>console.warn(e));beginExam(false)};
 
 /* ===== exam ===== */
-const save=()=>{if(S&&!S.finished&&USER)store.set('zwf_sess_'+USER.id,S)};
+const save=()=>{if(S&&!S.finished&&USER)DB.saveSession()};
 let zoom=store.get('zwf_zoom')||1;
 function beginExam(resume){
   graceUntil=Date.now()+2500;away=false;
-  $('#xhName').textContent=USER.guest?t('guestName'):USER.email;
+  $('#xhName').textContent=USER.guest?t('guestName'):USER.email;$('#xhTitle').textContent='Zhongwenfy · HSK '+ENTRY.level;
   setZoom(0);show('exam');
   if($('#fsAuto').checked&&!resume)enterFs();
   enterSection(S.sec,resume);
@@ -619,7 +727,7 @@ function enterSection(i,resume){
   S.sec=i;if(!resume){S.secStart=Date.now()}save();
   const sec=SECS[i];
   $('#examMain').innerHTML=(i===0?`<div class="notice">⚠ ${t('mustListen')}</div>`:'')+sec.parts.map(renderPart).join('')+actionBar(i);
-  paintSteps();buildNav();refreshNav();
+  paintSteps();buildNav();refreshNav();$$('textarea.essay').forEach(x=>updCnt(x.dataset.no));
   const isL=i===0;$('#audioBar').hidden=!isL;
   updateHeaderH();
   if(isL)startAudio(resume);else stopAudio();
@@ -649,33 +757,48 @@ document.addEventListener('click',async e=>{
   }
 });
 /* render */
-const optBtn=(no,l,txt,sel)=>`<button type="button" class="opt${sel?' sel':''}" data-no="${no}" data-l="${l}" aria-pressed="${!!sel}"><span class="ol">${l}</span>${txt!=null?`<span class="ot">${esc(txt)}</span>`:''}</button>`;
+const RBX=/([\u4e00-\u9fff0-9]+)\[([^\]]+)\]/g;
+const fmt=x=>esc(x).replace(RBX,'<ruby>$1<rt>$2</rt></ruby>').replace(/（　　）/g,'<span class="blank">　　</span>').replace(/⟦([^⟧]+)⟧/g,'<u>$1</u>').replace(/（(\d{1,3})）/g,'<b class="bn">（$1）</b>');
+const imgSrc=n=>ENTRY.path+'img/'+n+'.jpg';
+const optBtn=(no,l,txt,sel,im)=>`<button type="button" class="opt${sel?' sel':''}" data-no="${no}" data-l="${l}" aria-pressed="${!!sel}"><span class="ol">${l}</span>${im?`<span class="oi"><img src="${imgSrc(im)}" alt=""></span>`:''}${txt!=null?`<span class="ot">${fmt(txt)}</span>`:''}</button>`;
 function qCard(no,inner){return `<article class="q${S.flags[no]?' flagged':''}" id="q${no}"><div class="qno">${no}</div><div class="qbody">${inner}</div><button type="button" class="flag" data-flag="${no}" aria-pressed="${!!S.flags[no]}">${t('unsure')}</button></article>`}
-function exBox(p,pkg){
+function exBox(p){
   const e=p.ex;if(!e)return '';
-  const img=e.img?`<img src="${ENTRY.path}img/${e.img}.jpg" alt="">`:'';
-  const opts=e.o?'  '+e.o.map((x,i)=>`<b>${LET[i]}</b> ${esc(x)}`).join('　'):'';
+  const imgs=(e.imgs||[]).map((im,i)=>`<span class="exi"><b>${LET[i]}</b><img src="${imgSrc(im)}" alt=""></span>`).join('');
+  const img=e.img?`<img src="${imgSrc(e.img)}" alt="">`:'';
+  const opts=e.o?'  '+e.o.map((x,i)=>`<b>${LET[i]}</b> ${fmt(x)}`).join('　'):'';
   const ans=e.a?`　<b>→ ${e.a}</b>`:'';
-  return `<div class="example">${img}<div><b>例如</b>　${esc((e.t||'').replace(/^例如：/,''))}${e.w?'　'+esc(e.w):''}<div>${opts}${ans}</div></div></div>`;
+  return `<div class="example">${img}${imgs}<div><b>例如</b>　${fmt((e.t||'').replace(/^例如：/,''))}${e.w?'　'+fmt(e.w):''}<div>${opts}${ans}</div></div></div>`;
 }
+const passBlock=pb=>pb?`<div class="passage long">${fmt(pb)}</div>`:'';
+const letters=(q,n)=>`<div class="opts letters">${Array.from({length:n},(_,i)=>optBtn(q.no,LET[i],null,S.ans[q.no]===LET[i])).join('')}</div>`;
 function renderPart(p){
   let h=`<div class="part-head"><h2>${esc(p.h)}</h2></div>${exBox(p)}`;
-  if(p.type==='pic'){
-    h+=`<div class="imgopts">${p.imgs.map((im,i)=>`<figure><span class="il">${LET[i]}</span><img src="${ENTRY.path}img/${im}.jpg" alt="${LET[i]}"></figure>`).join('')}</div>`;
-    h+=p.qs.map(q=>qCard(q.no,`<div class="opts letters">${p.imgs.map((_,i)=>optBtn(q.no,LET[i],null,S.ans[q.no]===LET[i])).join('')}</div>`)).join('');
+  if(p.type==='pic'||p.type==='picq'){
+    if(p.type==='pic')h+=`<div class="imgopts">${p.imgs.map((im,i)=>`<figure><span class="il">${LET[i]}</span><img src="${imgSrc(im)}" alt="${LET[i]}"></figure>`).join('')}</div>`;
+    h+=p.qs.map(q=>{
+      const stem=p.type==='pic'&&p.items?`<div class="stem">${fmt(p.items[q.i])}</div>`:'';
+      const o=p.type==='picq'?`<div class="opts imgs">${q.item.imgs.map((im,i)=>optBtn(q.no,LET[i],null,S.ans[q.no]===LET[i],im)).join('')}</div>`:letters(q,p.imgs.length);
+      return qCard(q.no,stem+o)}).join('');
   }else if(p.type==='bank'){
-    h+=p.blank?`<div class="bank">${p.bank.map((b,i)=>`<span><b>${LET[i]}</b>${esc(b)}</span>`).join('')}</div>`:`<div class="bank list">${p.bank.map((b,i)=>`<span><b>${LET[i]}</b>${esc(b)}</span>`).join('')}</div>`;
-    h+=p.qs.map(q=>qCard(q.no,`<div class="stem">${esc(q.item).replace(/（　　）/g,'<span class="blank">　　</span>')}</div><div class="opts letters">${p.bank.map((_,i)=>optBtn(q.no,LET[i],null,S.ans[q.no]===LET[i])).join('')}</div>`)).join('');
+    h+=passBlock(p.pb);
+    h+=`<div class="bank${p.blank?'':' list'}">${p.bank.map((b,i)=>`<span><b>${LET[i]}</b>${fmt(b)}</span>`).join('')}</div>`;
+    h+=p.qs.map(q=>{const it=q.item;const stem=typeof it==='string'?`<div class="stem">${fmt(it)}</div>`:(it&&it.img?`<div class="stemimg"><img src="${imgSrc(it.img)}" alt=""></div>`:'');
+      return qCard(q.no,stem+letters(q,p.bank.length))}).join('');
   }else if(p.type==='mc'){
     h+=p.qs.map(q=>{const it=q.item;
-      return qCard(q.no,`${it.p?`<div class="passage">${esc(it.p)}</div>`:''}${it.q?`<div class="ask">★ ${esc(it.q)}</div>`:''}<div class="opts">${it.o.map((o,i)=>optBtn(q.no,LET[i],o,S.ans[q.no]===LET[i])).join('')}</div>`)}).join('');
+      return passBlock(it.pb)+qCard(q.no,`${it.p?`<div class="passage">${fmt(it.p)}</div>`:''}${it.q?`<div class="ask">${it.p?'★ ':''}${fmt(it.q)}</div>`:''}<div class="opts">${it.o.map((o,i)=>optBtn(q.no,LET[i],o,S.ans[q.no]===LET[i])).join('')}</div>`)}).join('');
   }else if(p.type==='fill'){
-    h+=p.qs.map(q=>{const it=q.item;return qCard(q.no,`<div class="stem">${esc(it.a)}<span class="fillbox"><span class="py">${esc(it.py)}</span><input type="text" class="char-in" data-no="${q.no}" maxlength="2" lang="zh" autocomplete="off" value="${esc(S.ans[q.no]||'')}" aria-label="${q.no}"></span>${esc(it.b)}</div>`)}).join('');
+    h+=p.qs.map(q=>{const it=q.item;return qCard(q.no,`<div class="stem">${fmt(it.a)}<span class="fillbox"><span class="py">${esc(it.py)}</span><input type="text" class="char-in" data-no="${q.no}" maxlength="2" lang="zh" autocomplete="off" value="${esc(S.ans[q.no]||'')}" aria-label="${q.no}"></span>${fmt(it.b)}</div>`)}).join('');
   }else if(p.type==='text'){
-    h+=p.qs.map(q=>{const it=q.item;return qCard(q.no,`<div class="w2"><figure><img src="${ENTRY.path}img/${it.img}.jpg" alt=""></figure><div><div class="w2-word"><span class="zh">${esc(it.w)}</span></div><textarea class="zh-in" data-no="${q.no}" lang="zh" rows="3" aria-label="${q.no}">${esc(S.ans[q.no]||'')}</textarea></div></div>`)}).join('');
+    h+=p.qs.map(q=>{const it=q.item;return qCard(q.no,`<div class="w2"><figure>${it.img?`<img src="${imgSrc(it.img)}" alt="">`:''}</figure><div><div class="w2-word"><span class="zh">${fmt(it.w)}</span></div><textarea class="zh-in" data-no="${q.no}" lang="zh" rows="3" aria-label="${q.no}">${esc(S.ans[q.no]||'')}</textarea></div></div>`)}).join('');
+  }else if(p.type==='essay'){
+    h+=p.qs.map(q=>{const it=q.item;return qCard(q.no,`<div class="stem">${esc(it.p)}</div>${it.img?`<div class="essayimg"><img src="${imgSrc(it.img)}" alt=""></div>`:''}<textarea class="zh-in essay" data-no="${q.no}" lang="zh" aria-label="${q.no}">${esc(S.ans[q.no]||'')}</textarea><div class="cnt" id="cnt${q.no}"></div>`)}).join('');
   }
   return h;
 }
+const chars=v=>[...String(v||'').replace(/\s/g,'')].length;
+function updCnt(no){const q=QS[no],c=$('#cnt'+no);if(!c||!q)return;const n=chars(S.ans[no]),m=q.item.min||0;c.textContent=`${n} / ${m} ${t('chars')}`;c.classList.toggle('ok',n>=m)}
 $('#examMain').addEventListener('click',e=>{
   const o=e.target.closest('.opt');
   if(o){const no=+o.dataset.no;S.ans[no]=S.ans[no]===o.dataset.l?'':o.dataset.l;save();
@@ -683,7 +806,7 @@ $('#examMain').addEventListener('click',e=>{
   const f=e.target.closest('.flag');
   if(f){const no=+f.dataset.flag;S.flags[no]=!S.flags[no];save();f.setAttribute('aria-pressed',!!S.flags[no]);$('#q'+no).classList.toggle('flagged',!!S.flags[no]);refreshNav()}
 });
-$('#examMain').addEventListener('input',e=>{const el=e.target.closest('[data-no]');if(el&&(el.matches('.char-in')||el.matches('textarea'))){S.ans[+el.dataset.no]=el.value;save();refreshNav()}});
+$('#examMain').addEventListener('input',e=>{const el=e.target.closest('[data-no]');if(el&&(el.matches('.char-in')||el.matches('textarea'))){S.ans[+el.dataset.no]=el.value;save();refreshNav();if(el.matches('.essay'))updCnt(+el.dataset.no)}});
 /* nav drawer */
 const answered=no=>!!(S.ans[no]&&String(S.ans[no]).trim());
 function buildNav(){
@@ -726,53 +849,56 @@ window.addEventListener('beforeunload',e=>{if(S&&!S.finished&&curScreen==='exam'
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('#modal').hidden)closeM(false);else setDrawer(false)}});
 
 /* ===== grading & result ===== */
-const MAXS={L:100,R:100,W:50},GMAX=250;
-const scoreOf=(id,c,n)=>n?Math.round(c/n*MAXS[id]):0;
-const secScore=s=>s.score!=null?s.score:scoreOf(s.id,s.c,s.n);
+const MANUAL=q=>q.type==='text'||q.type==='essay';
+const secScore=s=>s.score||0;
 const totalOf=x=>x.secs.reduce((a,s)=>a+secScore(s),0);
 const isOkR=(q,a)=>String(a||'').trim()===q.key;
 function submit(reason){
   clearInterval(timerH);stopAudio();S.finished=true;S.endedAt=Date.now();
-  const secs=SECS.map(sec=>{let c=0,n=0;const man=[];for(let no=sec.from;no<=sec.to;no++){const q=QS[no];if(q.type==='text'){man.push(no);continue}n++;if(isOkR(q,S.ans[no]))c++}return{id:sec.id,zh:sec.zh,name:sec.name,c,n,man,score:scoreOf(sec.id,c,n),max:MAXS[sec.id]}});
-  const r={id:S.id,pkgId:S.pkg,date:S.endedAt,secs,total:secs.reduce((a,s)=>a+s.score,0),max:GMAX,usedSec:Math.round((S.endedAt-S.startedAt)/1000),reason,viol:S.viol||0,skipped:!!S.skipped,answers:S.ans};
-  CURRES=r;const h=hist();h.unshift(r);store.set('zwf_hist_'+USER.id,h.slice(0,50));
-  store.del('zwf_sess_'+USER.id);
+  const secs=SECS.map(sec=>{let c=0,n=0;const man=[];for(let no=sec.from;no<=sec.to;no++){const q=QS[no];if(MANUAL(q)){man.push(no);continue}n++;if(isOkR(q,S.ans[no]))c++}
+    const N=n+man.length;return{id:sec.id,zh:sec.zh,name:sec.name,c,n,man,score:N?Math.round(c*100/N):0,max:N?Math.round(n*100/N):0}});
+  const r={id:S.id,pkgId:S.pkg,date:S.endedAt,secs,total:secs.reduce((a,s)=>a+s.score,0),max:secs.reduce((a,s)=>a+s.max,0),usedSec:Math.round((S.endedAt-S.startedAt)/1000),reason,viol:S.viol||0,skipped:!!S.skipped,answers:S.ans};
+  CURRES=r;
+  DB.addResult(r).then(()=>DB.clearSession()).catch(e=>{console.error(e);toast(t('saveErr'),'warn')});
   paintResult(r);show('result');
 }
+const tutorOf=r=>r.secs.reduce((a,s)=>a+(s.man.length?100-s.max:0),0);
 function paintResult(r){
   const ent=MANIFEST.find(m=>m.id===r.pkgId)||ENTRY;
-  const rows=r.secs.map(s=>`<div class="score-row"><div class="name"><span class="zh">${s.zh}</span> ${esc(s.name[LANG]||s.name.en)}</div><div class="val">${secScore(s)}<small> / ${MAXS[s.id]}</small></div><div class="track"><i style="width:${secScore(s)/MAXS[s.id]*100}%"></i></div><div style="grid-column:1/-1;font-size:.85rem;color:var(--muted)">${s.c} / ${s.n} ${t('correctCount')}</div>${s.man.length?`<div class="note">${t('tutorNote')}</div>`:''}</div>`).join('');
-  const man=r.secs.flatMap(s=>s.man).map(no=>{const q=QS[no],a=String(r.answers[no]||'').trim();return `<div class="manual-item"><figure style="margin:0"><img src="${ent.path}img/${q.item.img}.jpg" alt=""></figure><div><b>${no}</b> · <span class="zh">${esc(q.item.w)}</span><div class="ans">${a?esc(a):t('empty')}</div></div></div>`}).join('');
-  const grid=Object.values(QS).map(q=>{const c=q.type==='text'?'mn':isOkR(q,r.answers[q.no])?'ok':'no';return `<button class="rg ${c}" data-rg="${q.no}">${q.no}</button>`}).join('');
+  const rows=r.secs.map(s=>`<div class="score-row"><div class="name"><span class="zh">${s.zh}</span> ${esc(s.name[LANG]||s.name.en)}</div><div class="val">${s.max?secScore(s):'—'}<small>${s.max?' / '+s.max:''}</small></div><div class="track"><i style="width:${s.max?secScore(s)/s.max*100:0}%"></i></div>${s.n?`<div style="grid-column:1/-1;font-size:.85rem;color:var(--muted)">${s.c} / ${s.n} ${t('correctCount')}</div>`:''}${s.man.length?`<div class="note">${t('tutorNote').replace('{n}',100-s.max)}</div>`:''}</div>`).join('');
+  const man=r.secs.flatMap(s=>s.man).map(no=>{const q=QS[no],a=String(r.answers[no]||'').trim(),it=q.item;return `<div class="manual-item"><figure style="margin:0">${it.img?`<img src="${ent.path}img/${it.img}.jpg" alt="">`:''}</figure><div><b>${no}</b>${it.w?` · <span class="zh">${fmt(it.w)}</span>`:''}${q.type==='essay'?` · ${chars(a)} ${t('chars')}`:''}<div class="ans">${a?esc(a):t('empty')}</div></div></div>`}).join('');
+  const grid=Object.values(QS).map(q=>{const c=MANUAL(q)?'mn':isOkR(q,r.answers[q.no])?'ok':'no';return `<button class="rg ${c}" data-rg="${q.no}">${q.no}</button>`}).join('');
   const flags=[r.viol?`${t('violCount')}: <b>${r.viol}</b>`:'',r.skipped?t('skippedNote'):''].filter(Boolean).map(x=>`<p style="padding:.7rem 1.4rem;font-weight:700;color:var(--amber);border-top:1px solid var(--line)">${x}</p>`).join('');
-  $('#resultRoot').innerHTML=`<header><h1>${t('result')}</h1><p>${USER.guest?t('guestName'):esc(USER.email)} · HSK 3 · ${t('pkgName')} ${MANIFEST.findIndex(m=>m.id===r.pkgId)+1} · ${new Date(r.date).toLocaleString(LANG==='id'?'id-ID':'en-US')} · ${clock(r.usedSec*1000)}</p></header>
-  <div class="sheet"><h2>${t('score')}</h2>${rows}<div class="score-total"><div><b>${t('total')}</b><br><small>${t('tutorNote')}</small></div><div class="num">${totalOf(r)}<small style="font-size:1rem"> / ${GMAX}</small></div></div>${flags}</div>
+  const tut=tutorOf(r);
+  $('#resultRoot').innerHTML=`<header><h1>${t('result')}</h1><p>${USER.guest?t('guestName'):esc(USER.email)} · ${pkgLabel(r.pkgId)} · ${new Date(r.date).toLocaleString(LANG==='id'?'id-ID':'en-US')} · ${clock(r.usedSec*1000)}</p></header>
+  <div class="sheet"><h2>${t('score')}</h2>${rows}<div class="score-total"><div><b>${t('total')}</b>${tut?`<br><small>${t('tutorNote').replace('{n}',tut)}</small>`:''}</div><div class="num">${totalOf(r)}<small style="font-size:1rem"> / ${r.max}</small></div></div>${flags}</div>
   ${man?`<div class="sheet"><h2>${t('manualH')}</h2><p style="padding:.8rem 1.4rem;color:var(--amber);font-weight:700">${t('manual')}</p>${man}</div>`:''}
   <div class="sheet"><h2>${t('review')}</h2><div class="rgrid">${grid}</div><p id="detailLine"></p></div>
   <div class="actions" style="margin-top:1.6rem"><button class="btn btn-primary" id="resHome">${t('toPackages')}</button><button class="btn" id="resHist">${t('myResults')}</button></div>`;
   $('#resHome').onclick=openHome;$('#resHist').onclick=()=>{paintHist();show('hist')};
-  $('#resultRoot').onclick=e=>{const b=e.target.closest('[data-rg]');if(!b)return;$$('.rg').forEach(x=>x.classList.toggle('cur',x===b));const q=QS[+b.dataset.rg];if(q.type==='text')return $('#detailLine').textContent=`${q.no}: ${t('manual')}`;
+  $('#resultRoot').onclick=e=>{const b=e.target.closest('[data-rg]');if(!b)return;$$('.rg').forEach(x=>x.classList.toggle('cur',x===b));const q=QS[+b.dataset.rg];if(MANUAL(q))return $('#detailLine').textContent=`${q.no}: ${t('manual')}`;
     const a=r.answers[q.no],txt=l=>{if(!l)return t('empty');if(q.type==='mc')return `${l} ${q.item.o[LET.indexOf(l)]||''}`;if(q.type==='bank'&&q.part.bank)return `${l} ${q.part.bank[LET.indexOf(l)]||''}`;return l};
-    $('#detailLine').textContent=`${q.no}: ${isOkR(q,a)?t('ok'):a?t('wrong'):t('skipped')} · ${t('yourAns')}: ${txt(a)} · ${t('correct')}: ${txt(q.key)}`};
+    $('#detailLine').textContent=`${q.no}: ${isOkR(q,a)?t('ok'):a?t('wrong'):t('skipped')} · ${t('yourAns')}: ${txt(a).replace(/\[[^\]]*\]/g,'')} · ${t('correct')}: ${txt(q.key).replace(/\[[^\]]*\]/g,'')}`};
 }
 
 /* ===== history ===== */
 const fmtDate=ts=>new Date(ts).toLocaleString(LANG==='id'?'id-ID':'en-US',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
 function paintHist(){
   if(!USER)return;const h=hist();$('#histSub').textContent=USER.guest?t('guestName'):USER.email;
-  $('#histStats').innerHTML=h.length?`<div><b>${h.length}</b><span>${t('attempts')}</span></div><div><b>${Math.max(...h.map(totalOf))}/${GMAX}</b><span>${t('best')}</span></div>`:'';
+  const b=h.reduce((a,x)=>!a||totalOf(x)>totalOf(a)?x:a,null);
+  $('#histStats').innerHTML=h.length?`<div><b>${h.length}</b><span>${t('attempts')}</span></div><div><b>${totalOf(b)}/${b.max}</b><span>${t('best')} · ${esc(pkgLabel(b.pkgId))}</span></div>`:'';
   $('#histWrap').hidden=!h.length;$('#histEmpty').hidden=!!h.length;
-  const cell=(x,id)=>{const s=x.secs.find(y=>y.id===id);return s?`<td>${secScore(s)}<small style="color:var(--muted)"> / ${MAXS[id]}</small></td>`:'<td>–</td>'};
-  $('#histBody').innerHTML=h.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${t('pkgName')} ${MANIFEST.findIndex(m=>m.id===x.pkgId)+1}</td>${cell(x,'L')}${cell(x,'R')}${cell(x,'W')}<td><b>${totalOf(x)}</b> / ${GMAX}</td><td>${clock(x.usedSec*1000)}</td><td>${x.answers?`<button class="btn btn-sm btn-primary" data-view="${x.id}">${t('view')}</button>`:''}</td></tr>`).join('');
+  const cell=(x,id)=>{const s=x.secs.find(y=>y.id===id);return s&&s.max?`<td>${secScore(s)}<small style="color:var(--muted)"> / ${s.max}</small></td>`:'<td>–</td>'};
+  $('#histBody').innerHTML=h.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${esc(pkgLabel(x.pkgId))}</td>${cell(x,'L')}${cell(x,'R')}${cell(x,'W')}<td><b>${totalOf(x)}</b> / ${x.max}</td><td>${clock(x.usedSec*1000)}</td><td>${x.answers?`<button class="btn btn-sm btn-primary" data-view="${x.id}">${t('view')}</button>`:''}</td></tr>`).join('');
 }
 $('#histBody').addEventListener('click',async e=>{
   const b=e.target.closest('[data-view]');if(!b)return;
   const x=hist().find(y=>String(y.id)===b.dataset.view);if(!x)return;
-  const m=MANIFEST.find(k=>k.id===x.pkgId);
+  const m=MANIFEST.find(k=>k.id===x.pkgId);if(!m)return;
   try{await loadPkg(m)}catch(er){return toast(er.message,'warn')}
   ENTRY=m;CURRES=x;paintResult(x);show('result');
 });
-$('#histClear').onclick=async()=>{if(await ask({title:t('clearQ'),text:t('clearT'),ok:t('clearHist'),cancel:t('keep'),danger:true})){store.del('zwf_hist_'+USER.id);paintHist()}};
+$('#histClear').onclick=async()=>{if(await ask({title:t('clearQ'),text:t('clearT'),ok:t('clearHist'),cancel:t('keep'),danger:true})){try{await DB.clearResults()}catch(e){toast(t('cloudErr'),'warn')}paintHist()}};
 
 /* ===== tab / window switch rule ===== */
 let away=false,graceUntil=0,violOpen=false;
@@ -815,7 +941,13 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))navigator.s
 
 /* ===== boot ===== */
 applyLang();
-const saved=store.get('zwf_cur');if(saved&&(saved.guest||saved.email))signIn(saved);
+if(ZC.ALLOW_GUEST===false){$('#btnGuest').hidden=true;$('#guestNote').hidden=true}
+if(sb){
+  sb.auth.onAuthStateChange((evt,session)=>{
+    if(evt==='SIGNED_OUT'){if(USER&&USER.cloud){USER=null;S=null;show('login')}}
+    else if(session&&session.user)setTimeout(()=>cloudSignIn(session.user),0);
+  });
+}else{const saved=sess.get('zwf_cur');if(saved)localSignIn(saved)}
 </script>
 </body>
 </html>
